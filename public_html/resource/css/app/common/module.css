@@ -880,6 +880,97 @@ label.category-make div::before {
   -webkit-mask-image: url(../../../images/icn-category-make.svg);
   mask-image: url(../../../images/icn-category-make.svg);
 }
+
+/* SDG */
+label.category-zero-hunger div::before {
+  -webkit-mask-image: url(../../../images/contents-sdg-ZH.svg);
+  mask-image: url(../../../images/contents-sdg-ZH.svg);
+}
+
+label.category-good-health-well-being div::before {
+  -webkit-mask-image: url(../../../images/contents-sdg-GHWB.svg);
+  mask-image: url(../../../images/contents-sdg-GHWB.svg);
+}
+
+label.category-quality-education div::before {
+  -webkit-mask-image: url(../../../images/contents-sdg-QE.svg);
+  mask-image: url(../../../images/contents-sdg-QE.svg);
+}
+
+label.category-affordable-clean-energy div::before {
+  -webkit-mask-image: url(../../../images/contents-sdg-AC.svg);
+  mask-image: url(../../../images/contents-sdg-AC.svg);
+}
+
+label.category-decent-work-economic-growth div::before {
+  -webkit-mask-image: url(../../../images/contents-sdg-DE.svg);
+  mask-image: url(../../../images/contents-sdg-DE.svg);
+}
+
+label.category-industry-innovation-infrastructure div::before {
+  -webkit-mask-image: url(../../../images/contents-sdg-II.svg);
+  mask-image: url(../../../images/contents-sdg-II.svg);
+}
+
+label.category-reduced-inequalities div::before {
+  -webkit-mask-image: url(../../../images/contents-sdg-RI.svg);
+  mask-image: url(../../../images/contents-sdg-RI.svg);
+}
+
+label.category-sustainable-cities-communities div::before {
+  -webkit-mask-image: url(../../../images/contents-sdg-SC.svg);
+  mask-image: url(../../../images/contents-sdg-SC.svg);
+}
+
+label.category-responsible-consumption-production div::before {
+  -webkit-mask-image: url(../../../images/contents-sdg-RP.svg);
+  mask-image: url(../../../images/contents-sdg-RP.svg);
+}
+
+label.category-climate-action div::before {
+  -webkit-mask-image: url(../../../images/contents-sdg-CA.svg);
+  mask-image: url(../../../images/contents-sdg-CA.svg);
+}
+
+label.category-life-below-water div::before {
+  -webkit-mask-image: url(../../../images/contents-sdg-LBW.svg);
+  mask-image: url(../../../images/contents-sdg-LBW.svg);
+}
+
+label.category-life-on-land div::before {
+  -webkit-mask-image: url(../../../images/contents-sdg-LOL.svg);
+  mask-image: url(../../../images/contents-sdg-LOL.svg);
+}
+
+label.category-peace-justice-strong-institutions div::before {
+  -webkit-mask-image: url(../../../images/contents-sdg-PJS.svg);
+  mask-image: url(../../../images/contents-sdg-PJS.svg);
+}
+
+label.category-partnerships-for-the-goals div::before {
+  -webkit-mask-image: url(../../../images/contents-sdg-RF.svg);
+  mask-image: url(../../../images/contents-sdg-RF.svg);
+}
+
+/* SDG: 아이콘을 우측에 크게 반투명 배치 (색상은 기본/선택 상태 공통 규칙 유지) */
+.category-wrap.sdg label[class*="category-"] {
+  position: relative;
+  overflow: hidden;
+}
+
+.category-wrap.sdg label[class*="category-"] div {
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  right: 8px;
+  width: 44px;
+  height: 44px;
+  opacity: 0.4;
+}
+
+.category-wrap.sdg label[class*="category-"] p {
+  position: relative;
+}
 /* checkbox end */
 
 /* select */
@@ -2215,6 +2306,20 @@ li.nothing > img {
   }
   100% {
     transform: translateX(0) rotateY(0deg) rotateZ(0deg) skewY(0deg) scale(1, 1);
+  }
+}
+
+/* opacity 는 0 에서 요소 자체 값으로 (reward 비활성 배지 0.4 유지) */
+@keyframes fadeinScale {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 /* keyframes end */

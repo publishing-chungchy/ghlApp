@@ -75,7 +75,7 @@
         <div class="contents-bottom">
           <!-- Review Answers 클릭 시 .review 에 act 추가 -->
           <button class="btn btn-noStyle btn-review">Review Answers</button>
-          <a href="javascript:void(0);" class="btn btn-big">OK</a>
+          <button class="btn btn-big btn-done">OK</button>
         </div>
       </div>
     </div>
@@ -140,6 +140,45 @@
               </ul>
             </li>
           </ul>
+        </div>
+      </div>
+    </div>
+    <!-- 학습 완료 팝업 (OK 클릭 시 .dimmed 에 act 추가되어 노출) -->
+    <div class="dimmed">
+      <div class="popup-done">
+        <div class="contents-top">
+          <h2 class="done-title">Completed!</h2>
+          <p class="done-text">Try Activity!</p>
+        </div>
+        <div class="inner">
+          <!-- 다른 학습 바로가기 (현재 학습 제외, 링크 추후 매핑) -->
+          <ul class="activity-list">
+            <li><a href="./speaking.html" class="btn btn-speaking">Speaking</a></li>
+            <li><a href="./listening.html" class="btn btn-listening">Listening</a></li>
+            <li><a href="./thinking.html" class="btn btn-thinking">Thinking</a></li>
+            <li><a href="./bookReport.html" class="btn btn-bookReport">Book Report</a></li>
+          </ul>
+          <!-- 추천 도서 -->
+          <div class="recommend">
+            <div class="recommend-book">
+              <div class="content-thumb">
+                <div class="book">
+                  <img src="../public_html/resource/images/dump/bookimg01.jpg" alt="recommended book">
+                </div>
+              </div>
+              <div class="recommend-text">
+                <img src="../public_html/resource/images/learning/img-donePopup.png" alt="#">
+                <p>Keep Reading with<br>Highlights!</p>
+              </div>
+            </div>
+            <a href="../public_html/viewer-app/viewer+books.html" class="btn-read">
+              Read
+              <img src="../public_html/resource/images/learning/icn-arrow-read.svg" alt="">
+            </a>
+          </div>
+        </div>
+        <div class="contents-bottom">
+          <a href="../01main.html" class="btn btn-big">Home</a>
         </div>
       </div>
     </div>

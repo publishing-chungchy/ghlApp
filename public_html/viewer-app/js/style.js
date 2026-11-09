@@ -341,6 +341,28 @@ $(document).ready(function () {
     });
   }
 
+  // 뒤로가기: 뷰어 진입 직전 페이지로 이동
+  // 진입 경로는 sessionStorage(viewerReturn) 배열로 관리 (앱 페이지 → 뷰어: 초기화, 뷰어 → 뷰어: 추가)
+  // 저장값이 없으면 메인으로 이동
+  let viewerReturn = [];
+  try {
+    viewerReturn = JSON.parse(window.sessionStorage.getItem("viewerReturn")) || [];
+  } catch (err) {}
+
+  $("nav.top .btn-back").attr("href", viewerReturn[viewerReturn.length - 1] || "../../01main.html").on("click", function () {
+    viewerReturn.pop();
+    try {
+      window.sessionStorage.setItem("viewerReturn", JSON.stringify(viewerReturn));
+    } catch (err) {}
+  });
+
+  $("a[href*='viewer']").not(".btn-back").on("click", function () {
+    viewerReturn.push(window.location.href);
+    try {
+      window.sessionStorage.setItem("viewerReturn", JSON.stringify(viewerReturn));
+    } catch (err) {}
+  });
+
   // 북마크 버튼의 아이콘 상태 전환
   $(".top .icn-bookMark").on("click", function () {
     $(this).children("img").toggleClass("act");

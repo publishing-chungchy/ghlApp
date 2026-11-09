@@ -82,29 +82,34 @@
           <p class="done-text">Try Activity!</p>
         </div>
         <div class="inner">
-          <!-- 다른 학습 바로가기 (링크 추후 매핑) -->
+          <!-- 다른 학습 바로가기 (현재 학습 제외) -->
           <ul class="activity-list">
-            <li><a href="#" class="btn btn-quiz">Quiz</a></li>
-            <li><a href="#" class="btn btn-speaking">Speaking</a></li>
-            <li><a href="#" class="btn btn-listening">Listening</a></li>
-            <li><a href="#" class="btn btn-thinking">Thinking</a></li>
-            <li><a href="#" class="btn btn-bookReport">Book Report</a></li>
+            <li><a href="./quiz.html" class="btn btn-quiz">Quiz</a></li>
+            <li><a href="./speaking.html" class="btn btn-speaking">Speaking</a></li>
+            <li><a href="./thinking.html" class="btn btn-thinking">Thinking</a></li>
+            <li><a href="./bookReport.html" class="btn btn-bookReport">Book Report</a></li>
           </ul>
           <!-- 추천 도서 -->
-          <a href="#" class="recommend">
-            <div class="content-thumb">
-              <div class="book">
-                <img src="../public_html/resource/images/dump/bookimg01.jpg" alt="recommended book">
+          <div class="recommend">
+            <div class="recommend-book">
+              <div class="content-thumb">
+                <div class="book">
+                  <img src="../public_html/resource/images/dump/bookimg01.jpg" alt="recommended book">
+                </div>
+              </div>
+              <div class="recommend-text">
+                <img src="../public_html/resource/images/learning/img-donePopup.png" alt="#">
+                <p>Keep Reading with<br>Highlights!</p>
               </div>
             </div>
-            <div class="recommend-text">
-              <img src="../public_html/resource/images/learning/img-donePopup.png" alt="#">
-              <p>Keep Reading with<br>Highlights!</p>
-            </div>
-          </a>
+            <a href="../public_html/viewer-app/viewer+books.html" class="btn-read">
+              Read
+              <img src="../public_html/resource/images/learning/icn-arrow-read.svg" alt="">
+            </a>
+          </div>
         </div>
         <div class="contents-bottom">
-          <a href="#" class="btn btn-big">OK</a>
+          <a href="../01main.html" class="btn btn-big">Home</a>
         </div>
       </div>
     </div>

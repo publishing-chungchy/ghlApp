@@ -387,10 +387,30 @@
 
 .library .right .book-list ul li:not(.nothing) {
   width: calc((100% - ((var(--gap)) * 5)) / 6);
+  /* 콘텐츠 순차 등장 (페이지 진입 / 즐겨찾기 필터 전환 시) */
+  animation-name: fadeinScale;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
 }
+
+/* 항목별 0.05s 간격 (10번째 이후는 동일) */
+.library .right .book-list ul li:nth-child(2) { animation-delay: 0.05s; }
+.library .right .book-list ul li:nth-child(3) { animation-delay: 0.1s; }
+.library .right .book-list ul li:nth-child(4) { animation-delay: 0.15s; }
+.library .right .book-list ul li:nth-child(5) { animation-delay: 0.2s; }
+.library .right .book-list ul li:nth-child(6) { animation-delay: 0.25s; }
+.library .right .book-list ul li:nth-child(7) { animation-delay: 0.3s; }
+.library .right .book-list ul li:nth-child(8) { animation-delay: 0.35s; }
+.library .right .book-list ul li:nth-child(9) { animation-delay: 0.4s; }
+.library .right .book-list ul li:nth-child(n+10) { animation-delay: 0.45s; }
 
 .library .right .book-list ul li :where(.btn-noStyle, .content-thumb, img) {
   width: 100%;
+}
+
+/* 즐겨찾기 필터: .fav 콘텐츠만 노출 */
+.library .right .book-list.fav-only ul li:not(:has(.content-thumb.fav)) {
+  display: none;
 }
 
 .library .right .book-list ul li.next > .btn {
@@ -1592,6 +1612,23 @@
   opacity: 1;
   pointer-events: auto;
 }
+
+/* 배지 순차 등장 (페이지 진입 / 탭 전환 시), 항목별 0.05s 간격 (10번째 이후는 동일) */
+.reward .badge-list > .box {
+  animation-name: fadeinScale;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.reward .badge-list > .box:nth-child(2) { animation-delay: 0.05s; }
+.reward .badge-list > .box:nth-child(3) { animation-delay: 0.1s; }
+.reward .badge-list > .box:nth-child(4) { animation-delay: 0.15s; }
+.reward .badge-list > .box:nth-child(5) { animation-delay: 0.2s; }
+.reward .badge-list > .box:nth-child(6) { animation-delay: 0.25s; }
+.reward .badge-list > .box:nth-child(7) { animation-delay: 0.3s; }
+.reward .badge-list > .box:nth-child(8) { animation-delay: 0.35s; }
+.reward .badge-list > .box:nth-child(9) { animation-delay: 0.4s; }
+.reward .badge-list > .box:nth-child(n+10) { animation-delay: 0.45s; }
 
 .reward .badge-list > .box:not(:has(.btn-wrap)) {
   padding: 12px;
