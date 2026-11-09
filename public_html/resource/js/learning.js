@@ -213,15 +213,16 @@ $(document).ready(function () {
     });
   });
 
-  // thinking 학습단
-  $(".thinking.question").each(function () {
+  // thinking / bookReport 학습단 (bookReport: 1500자, textarea 높이 고정)
+  $(".thinking.question, .bookReport.question").each(function () {
     const $wrap = $(this);
     const $containers = $wrap.find(".inner").children("[name='container']");
     const $steps = $wrap.find(".step-wrap button");
     const $prev = $wrap.find(".btn-prev");
     const $next = $wrap.find(".btn-next");
     const $toast = $wrap.find(".toast");
-    const maxLength = 50;
+    const isBookReport = $wrap.hasClass("bookReport");
+    const maxLength = isBookReport ? 1500 : 50;
     let toastTimer;
 
     const getCurrent = function () {
@@ -269,8 +270,10 @@ $(document).ready(function () {
       if (filtered !== value) $textarea.val(filtered);
       const length = getLength($textarea);
 
-      this.style.height = "auto";
-      this.style.height = this.scrollHeight + "px";
+      if (!isBookReport) {
+        this.style.height = "auto";
+        this.style.height = this.scrollHeight + "px";
+      }
 
       $textarea.siblings(".count").children("span").text(length);
       if (length > maxLength) showToast();
@@ -280,7 +283,7 @@ $(document).ready(function () {
     // 이전/다음 문제 이동, 마지막 문제에서 다음 누르면 결과 페이지로 이동
     const moveTo = function (index) {
       if (index >= $containers.length) {
-        window.location.href = "thinking+results.html";
+        window.location.href = isBookReport ? "bookReport+results.html" : "thinking+results.html";
         return;
       }
       $containers.removeClass("act").eq(index).addClass("act");
@@ -330,7 +333,7 @@ $(document).ready(function () {
     // 이전/다음 문제 이동, 마지막 문제에서 다음 누르면 결과 페이지로 이동
     const moveTo = function (index) {
       if (index >= $containers.length) {
-        window.location.href = "quiz+results.html";
+        window.location.href = "quiz+question+results.html";
         return;
       }
       $containers.removeClass("act").eq(index).addClass("act");
@@ -349,6 +352,150 @@ $(document).ready(function () {
     });
   });
 
+  // speaking 학습단
+  $(".speaking.question").each(function () {
+    const $wrap = $(this);
+    const $containers = $wrap.find(".inner").children("[name='container']");
+    const $steps = $wrap.find(".step-wrap button");
+    const $prev = $wrap.find(".btn-prev");
+    const $next = $wrap.find(".btn-next");
+    const $cue = $wrap.find(".cue");
+    const grades = ["great", "good", "practice", "retry"];
+    let audioTimer;
+    let cueTimer;
+    let recordTimer;
+
+    const getCurrent = function () {
+      return $containers.filter(".act");
+    };
+
+    // 이전/다음 버튼 상태: 첫 문제면 이전 disabled, 결과(great/good/practice) 나온 뒤에만 다음 활성화
+    const updateDirection = function () {
+      const $current = getCurrent();
+      $prev.toggleClass("act", $containers.index($current) > 0);
+      $next.toggleClass("act", $current.hasClass("solved"));
+    };
+
+    // 녹음 버튼: 음원 재생 / Read·Go! 안내 중에는 disabled
+    const updateRecord = function () {
+      const $current = getCurrent();
+      $current.find(".btn-record").toggleClass("disabled", $current.hasClass("listen") || $current.hasClass("wait"));
+    };
+
+    const formatTime = function (sec) {
+      return ("0" + Math.floor(sec / 60)).slice(-2) + ":" + ("0" + (sec % 60)).slice(-2);
+    };
+
+    // 문장 음원 재생 <음원 시간을 임의로 2s 라고 작성하였습니다.>
+    const playAudio = function ($container, callback) {
+      const $audio = $container.find(".btn-audio");
+      window.clearTimeout(audioTimer);
+      $audio.addClass("playing");
+      audioTimer = window.setTimeout(function () {
+        $audio.removeClass("playing");
+        if (callback) callback();
+      }, 2000);
+    };
+
+    // 녹음 시작 (이전 결과 지움, 시간 카운트)
+    const startRecord = function ($current) {
+      const $time = $current.find(".record-time");
+      let sec = 0;
+      window.clearTimeout(audioTimer);
+      $current.find(".btn-audio").removeClass("playing");
+      $current.removeClass(grades.join(" ")).addClass("recording");
+      $time.text(formatTime(sec));
+      recordTimer = window.setInterval(function () {
+        sec += 1;
+        $time.text(formatTime(sec));
+      }, 1000);
+    };
+
+    // 문제 진입: 음원 자동 재생(.listen) → 0.5s 텀 → Read → Go!(.wait) → 녹음 자동 시작
+    const startFlow = function ($container) {
+      $container.removeClass("retry").addClass("listen");
+      updateRecord();
+      playAudio($container, function () {
+        $container.removeClass("listen").addClass("wait");
+        cueTimer = window.setTimeout(function () {
+          $cue.addClass("read");
+          cueTimer = window.setTimeout(function () {
+            $cue.removeClass("read").addClass("go");
+            cueTimer = window.setTimeout(function () {
+              $cue.removeClass("go");
+              $container.removeClass("wait");
+              updateRecord();
+              startRecord($container);
+            }, 1000);
+          }, 1000);
+        }, 500);
+      });
+    };
+
+    // 문제 이동 시 진행 중인 음원 / 안내 / 녹음 정지
+    const stopAll = function () {
+      window.clearTimeout(audioTimer);
+      window.clearTimeout(cueTimer);
+      window.clearInterval(recordTimer);
+      $cue.removeClass("read go");
+      $containers.removeClass("listen wait recording");
+      $containers.find(".btn-audio").removeClass("playing");
+    };
+
+    // 헤드폰: 문장 음원 다시 듣기 (진입 흐름 / 녹음 중에는 무시)
+    $wrap.find(".btn-audio").on("click", function () {
+      const $current = getCurrent();
+      if ($current.is(".listen, .wait, .recording")) return;
+      playAudio($current);
+    });
+
+    // 마이크: 녹음 시작 / 정지 버튼: 결과 표시
+    // 결과는 great / good / practice / retry 중 임의 (실제 채점은 개발 영역)
+    $wrap.find(".btn-record").on("click", function () {
+      const $current = getCurrent();
+
+      if ($current.hasClass("recording")) {
+        const grade = grades[Math.floor(Math.random() * grades.length)];
+        window.clearInterval(recordTimer);
+        $current.removeClass("recording").addClass(grade);
+        if (grade !== "retry") {
+          $current.addClass("solved");
+          doneStep($current);
+        }
+        updateDirection();
+        return;
+      }
+
+      startRecord($current);
+    });
+
+    // 이전/다음 문제 이동, 마지막 문제에서 다음 누르면 결과 페이지로 이동
+    // 결과 안 나온 문제로 이동하면 진입 흐름 다시 시작
+    const moveTo = function (index) {
+      if (index >= $containers.length) {
+        window.location.href = "speaking+results.html";
+        return;
+      }
+      stopAll();
+      $containers.removeClass("act").eq(index).addClass("act");
+      $steps.removeClass("act").eq(index).addClass("act");
+      if (!getCurrent().hasClass("solved")) startFlow(getCurrent());
+      updateRecord();
+      updateDirection();
+    };
+
+    startFlow(getCurrent());
+    updateDirection();
+
+    $prev.on("click", function () {
+      moveTo($containers.index(getCurrent()) - 1);
+    });
+
+    $next.on("click", function () {
+      moveTo($containers.index(getCurrent()) + 1);
+    });
+  });
+
   // quiz 결과: Review Answers 클릭 시 정답 리스트 열림, X 클릭 시 닫힘
   $(".quiz.results").each(function () {
     const $wrap = $(this);
@@ -363,13 +510,28 @@ $(document).ready(function () {
     });
   });
 
-  // 학습 공통: 상단 X 클릭 시 나가기 팝업 노출, 팝업 X / No 클릭 시 닫힘 (Ok 링크는 추후 매핑)
+  // 학습 공통: 상단 X 클릭 시 나가기 팝업 노출, 팝업 X / No 클릭 시 닫힘
   $(".wrap > .top .btn-close").on("click", function () {
     $(this).closest(".wrap").find(".dimmed:has(.popup-exit)").addClass("act");
   });
 
   $(".dimmed .top .btn-close, .popup-exit .btn-no").on("click", function () {
     $(this).closest(".dimmed").removeClass("act");
+  });
+
+  // 학습 공통: 나가기 팝업 Ok 클릭 시 Book Info 진입 전 페이지(library 등)로 이동
+  // 진입 전 페이지는 style.js 에서 Book Info 링크 클릭 시 sessionStorage(learningReturn)에 저장, 없으면 메인으로 이동
+  let learningReturn;
+  try {
+    learningReturn = window.sessionStorage.getItem("learningReturn");
+  } catch (err) {}
+  $(".popup-exit .btn-ok").attr("href", learningReturn || "../01main.html");
+
+  // 학습 완료 팝업 추천 도서: 이전 경로 없는 뷰어 진입 → 뷰어 뒤로가기 시 메인으로 이동하도록 저장된 경로 삭제
+  $(".popup-done .recommend .btn-read").on("click", function () {
+    try {
+      window.sessionStorage.removeItem("viewerReturn");
+    } catch (err) {}
   });
 
   // 학습 공통 결과: OK 클릭 시 학습 완료 팝업 노출

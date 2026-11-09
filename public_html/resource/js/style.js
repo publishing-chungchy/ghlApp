@@ -442,17 +442,57 @@ $(document).ready(function () {
     $(this).toggleClass("act");
   });
 
+  // library 즐겨찾기 필터: 검색 옆 즐겨찾기 버튼 act 시 .fav 콘텐츠만 노출 (토글)
+  $(".library .search-wrap").siblings(".btn-favorite").on("click", function () {
+    $(this).closest(".right").find(".book-list").toggleClass("fav-only", $(this).hasClass("act"));
+  });
+
   // 썸네일의 즐겨찾기 상태를 Book Info 화면에 전달
-  $("a[href*='99bookInfo.html']").on("click", function () {
+  $("a[href*='99bookInfo']").on("click", function () {
     const url = new URL(this.href);
     if ($(this).find(".content-thumb.fav").length) url.searchParams.set("favorite", "1");
     else url.searchParams.delete("favorite");
     this.href = url.href;
   });
 
+  // 뷰어 진입 전 페이지 저장: 뷰어 뒤로가기 클릭 시 이 페이지로 복귀 (viewer-app/js/style.js)
+  $(document).on("click", "a[href*='viewer-app/viewer']", function () {
+    try {
+      window.sessionStorage.setItem("viewerReturn", JSON.stringify([window.location.href]));
+    } catch (err) {}
+  });
+
+  // Book Info 진입 전 페이지 저장: 학습단 나가기 팝업 Ok 클릭 시 이 페이지로 복귀 (learning.js)
+  $("a[href*='99bookInfo']").on("click", function () {
+    try {
+      window.sessionStorage.setItem("learningReturn", window.location.href);
+    } catch (err) {}
+  });
+
+  // Book Info 뒤로가기: 진입 전 페이지로 이동, 저장값 없으면 기존 링크(메인) 유지
+  if ($(".bookinfo").length) {
+    try {
+      const bookInfoReturn = window.sessionStorage.getItem("learningReturn");
+      if (bookInfoReturn) $(".bookinfo .btn-back").attr("href", bookInfoReturn);
+    } catch (err) {}
+  }
+
   if ($(".bookinfo").length && new URLSearchParams(window.location.search).get("favorite") === "1") {
     $(".bookinfo .btn-favorite").addClass("act");
   }
+
+  // library 탭별 Book Info: Read 버튼을 탭에 맞는 뷰어로 연결 (퍼블 확인용, 실제 분기는 개발 영역)
+  // ?type=phonics|books|videos|magazines|extensive → viewer+{type}.html, 없으면 viewer.html 유지
+  const viewerType = new URLSearchParams(window.location.search).get("type");
+  if ($(".bookinfo").length && ["phonics", "books", "videos", "magazines", "extensive"].indexOf(viewerType) > -1) {
+    $(".bookinfo a[href*='viewer.html']").attr("href", "./public_html/viewer-app/viewer+" + viewerType + ".html");
+  }
+
+  // Book Info Activity 버튼: 각 학습단 시작 페이지로 이동 (disabled 버튼은 클릭 이벤트 발생 안 함)
+  $(".bookinfo .activity-wrap").on("click", ".btn-quiz, .btn-speaking, .btn-listening, .btn-thinking, .btn-bookReport", function () {
+    const activity = this.className.match(/btn-(quiz|speaking|listening|thinking|bookReport)/)[1];
+    window.location.href = "./learning/" + activity + ".html";
+  });
 
   // 상단 메뉴 셀렉트 열기·닫기
   $(".menu-select > .btn-noStyle").click(function () {

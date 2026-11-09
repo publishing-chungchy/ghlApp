@@ -55,22 +55,6 @@
         </div>
       </nav>
       <div class="con half">
-        <div class="color-box">
-          <a href="./99bookInfo.html" class="flex">
-            <div class="content-thumb">
-              <img src="./public_html/resource/images/dump/phonics01.jpg" alt="#">
-            </div>
-            <div class="inner">
-              <p>Today’s Book</p>
-              <h2 class="title">At Bat</h2>
-            </div>
-            <ul class="descript-wrap">
-              <li>level 14</li>
-              <li>People & Places</li>
-              <li>Fiction</li>
-            </ul>
-          </a>
-        </div>
         <div class="right">
           <div class="flex">
             <div class="search-wrap">
@@ -81,6 +65,10 @@
             </div>
             <button class="btn btn-icnOnly btn-option">
               <img src="./public_html/resource/images/icn-option.svg" alt="option open">
+            </button>
+            <button class="btn btn-favorite" id="favoriteBtn">
+              <img src="./public_html/resource/images/icn-favorite.svg" alt="#">
+              <img src="./public_html/resource/images/icn-favorite+act.svg" alt="#">
             </button>
           </div>
           <div class="book-list">
@@ -121,7 +109,7 @@
           </a>
         </li>
         <li>
-          <a href="./download.html">
+          <a href="./05download.html">
             <img src="./public_html/resource/images/icn-nav-down.svg" alt="#">
             <span>Download</span>
           </a>
@@ -139,7 +127,7 @@
           <button type="button" class="btn btn-close">OK</button>
         </div>
       </div>
-      <div class="popup option">
+      <div class="popup option" id="oFilterBox">
         <button class="btn btn-icnOnly btn-close">
           <img src="./public_html/resource/images/icn-close-black.svg" alt="close the option">
         </button>
@@ -181,20 +169,20 @@
               <p class="option-title">Genre</p>
               <div class="flex">
                 <label for="genre-all" class="check-box pill">
-                  <input type="radio" id="genre-all" name="genre">
+                  <input type="radio" id="genre-all" name="genre" value="11,12">
                   <div></div>
                   <p>All</p>
                 </label>
                 <ul class="flex">
                   <li>
                     <label for="f" class="check-box pill">
-                      <input type="radio" id="f" name="genre">
+                      <input type="radio" id="f" name="genre" value="11">
                       <p>Fiction</p>
                     </label>
                   </li>
                   <li>
                     <label for="nf" class="check-box pill">
-                      <input type="radio" id="nf" name="genre">
+                      <input type="radio" id="nf" name="genre" value="12">
                       <p>Non-Fiction</p>
                     </label>
                   </li>
@@ -273,84 +261,82 @@
                     <p>All</p>
                   </label>
                 </div>
-                <div class="flex category-wrap act">
-                  <label for="category-zero-hunger" class="check-box category-school">
+                <div class="flex category-wrap act sdg">
+                  <label for="category-zero-hunger" class="check-box category-zero-hunger">
                     <input type="checkbox" id="category-zero-hunger">
                     <div></div>
                     <p>Zero Hunger</p>
                   </label>
-                  <label for="category-good-health-well-being" class="check-box category-school">
+                  <label for="category-good-health-well-being" class="check-box category-good-health-well-being">
                     <input type="checkbox" id="category-good-health-well-being">
                     <div></div>
                     <p>Good Health<br>&amp; Well-Being</p>
                   </label>
-                  <label for="category-quality-education" class="check-box category-school">
+                  <label for="category-quality-education" class="check-box category-quality-education">
                     <input type="checkbox" id="category-quality-education">
                     <div></div>
                     <p>Quality Education</p>
                   </label>
-                  <label for="category-affordable-clean-energy" class="check-box category-school">
+                  <label for="category-affordable-clean-energy" class="check-box category-affordable-clean-energy">
                     <input type="checkbox" id="category-affordable-clean-energy">
                     <div></div>
                     <p>Affordable<br>&amp; Clean Energy</p>
                   </label>
-                  <label for="category-decent-work-economic-growth" class="check-box category-school">
+                  <label for="category-decent-work-economic-growth" class="check-box category-decent-work-economic-growth">
                     <input type="checkbox" id="category-decent-work-economic-growth">
                     <div></div>
                     <p>Decent Work<br>&amp; Economic Growth</p>
                   </label>
-                  <label for="category-industry-innovation-infrastructure" class="check-box category-school">
+                  <label for="category-industry-innovation-infrastructure" class="check-box category-industry-innovation-infrastructure">
                     <input type="checkbox" id="category-industry-innovation-infrastructure">
                     <div></div>
                     <p>Industry, Innovation<br>&amp; Infrastructure</p>
                   </label>
-                  <label for="category-reduced-inequalities" class="check-box category-school">
+                  <label for="category-reduced-inequalities" class="check-box category-reduced-inequalities">
                     <input type="checkbox" id="category-reduced-inequalities">
                     <div></div>
                     <p>Reduced Inequalities</p>
                   </label>
-                  <label for="category-sustainable-cities-communities" class="check-box category-school">
+                  <label for="category-sustainable-cities-communities" class="check-box category-sustainable-cities-communities">
                     <input type="checkbox" id="category-sustainable-cities-communities">
                     <div></div>
                     <p>Sustainable Cities<br>&amp; Communities</p>
                   </label>
-                  <label for="category-responsible-consumption-production" class="check-box category-school">
+                  <label for="category-responsible-consumption-production" class="check-box category-responsible-consumption-production">
                     <input type="checkbox" id="category-responsible-consumption-production">
                     <div></div>
                     <p>Responsible Consumption<br>&amp; Production</p>
                   </label>
-                  <label for="category-climate-action" class="check-box category-school">
+                  <label for="category-climate-action" class="check-box category-climate-action">
                     <input type="checkbox" id="category-climate-action">
                     <div></div>
                     <p>Climate Action</p>
                   </label>
-                  <label for="category-life-below-water" class="check-box category-school">
+                  <label for="category-life-below-water" class="check-box category-life-below-water">
                     <input type="checkbox" id="category-life-below-water">
                     <div></div>
                     <p>Life below Water</p>
                   </label>
-                  <label for="category-life-on-land" class="check-box category-school">
+                  <label for="category-life-on-land" class="check-box category-life-on-land">
                     <input type="checkbox" id="category-life-on-land">
                     <div></div>
                     <p>Life on Land</p>
                   </label>
-                  <label for="category-peace-justice-strong-institutions" class="check-box category-school">
+                  <label for="category-peace-justice-strong-institutions" class="check-box category-peace-justice-strong-institutions">
                     <input type="checkbox" id="category-peace-justice-strong-institutions">
                     <div></div>
                     <p>Peace, Justice<br>&amp; Strong Institutions</p>
                   </label>
-                  <label for="category-partnerships-for-the-goals" class="check-box category-school">
+                  <label for="category-partnerships-for-the-goals" class="check-box category-partnerships-for-the-goals">
                     <input type="checkbox" id="category-partnerships-for-the-goals">
                     <div></div>
                     <p>Partnerships<br>for the Goals</p>
                   </label>
-                  <div class="category-all">
-                    <label for="category-sdg-all" class="check-box pill">
-                      <input type="radio" id="category-sdg-all" name="category-sdg">
-                      <div></div>
-                      <p>All</p>
-                    </label>
-                  </div>
+                  <label for="category-sdg-all" class="check-box pill">
+                    <input type="radio" id="category-sdg-all" name="category-sdg">
+                    <div></div>
+                    <p>All</p>
+                  </label>
                 </div>
               </div>
             </div>

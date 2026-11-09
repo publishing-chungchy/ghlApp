@@ -311,6 +311,7 @@ nav.top .con > button {
 }
 
 nav.top .con .btn-icnOnly{
+  flex-shrink: 0;
   width: 36px;
   height: 36px;
 }
