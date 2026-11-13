@@ -404,7 +404,7 @@
 .library .right .book-list ul li:nth-child(9) { animation-delay: 0.4s; }
 .library .right .book-list ul li:nth-child(n+10) { animation-delay: 0.45s; }
 
-.library .right .book-list ul li :where(.btn-noStyle, .content-thumb, img) {
+.library .right .book-list ul li :where(.btn-noStyle, .content-thumb, img:not(.abs)) {
   width: 100%;
 }
 
